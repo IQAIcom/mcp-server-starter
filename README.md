@@ -15,8 +15,8 @@ A minimal starter template for building Model Context Protocol (MCP) servers usi
 
 ## Getting Started
 
-1. **Copy this template:**
-    Copy the contents of this `mcp-server-starter` directory to a new project folder.
+1. **Create a new repository from this template:**
+   Click [here](https://github.com/new?template_name=mcp-server-starter&template_owner=IQAIcom) to generate a new repository from this template.
 
 2. **Navigate to your new project:**
 

@@ -5,12 +5,14 @@ A minimal starter template for building Model Context Protocol (MCP) servers usi
 ## Features
 
 * Basic project structure with `src/lib`, `src/services`, `src/tools`.
-* Placeholder `constants.ts` and `types.ts`.
 * TypeScript setup (compiles to `dist/`).
 * Biome for linting and formatting.
 * `fastmcp` for MCP server implementation.
-* A sample "HELLO_WORLD" tool.
-* `tsx` for easy development (live reload).
+* A weather service example demonstrating:
+  * Proper folder structure (lib, services, tools)
+  * API integration with error handling
+  * Parameter validation using Zod
+  * Separation of concerns
 * GitHub Actions workflows for CI and Release (manual trigger by default).
 
 ## Getting Started
@@ -33,7 +35,7 @@ A minimal starter template for building Model Context Protocol (MCP) servers usi
 
 4. **Customize `package.json`:**
     * Update `name`, `version`, `description`, `author`, `repository`, etc.
-    * Update the `bin` entry if you change the command name (e.g., `mcp-hello-server`).
+    * Update the `bin` entry if you change the command name.
 
 5. **Install dependencies:**
 
@@ -41,7 +43,17 @@ A minimal starter template for building Model Context Protocol (MCP) servers usi
     pnpm install
     ```
 
-6. **Initial Commit:**
+6. **Configure environment variables:**
+   For the weather service example, you'll need an OpenWeather API key:
+
+   ```bash
+   # Create a .env file (add to .gitignore)
+   echo "OPENWEATHER_API_KEY=your_api_key_here" > .env
+   ```
+
+   Get an API key from [OpenWeather](https://openweathermap.org/api).
+
+7. **Initial Commit:**
     It's a good idea to make an initial commit at this stage before setting up Husky and Changesets.
 
     ```bash
@@ -49,11 +61,45 @@ A minimal starter template for building Model Context Protocol (MCP) servers usi
     git commit -m "feat: initial project setup from template"
     ```
 
-7. **Develop your server:**
+8. **Develop your server:**
     * Add your custom tools in the `src/tools/` directory.
     * Implement logic in `src/lib/` and `src/services/`.
-    * Define shared items in `src/constants.ts` and `src/types.ts`.
     * Register tools in `src/index.ts`.
+
+## Example Weather Tool
+
+This template includes a weather service example that demonstrates:
+
+1. **HTTP Utilities** (`src/lib/http.ts`):
+   * Type-safe HTTP requests with Zod validation
+   * Error handling
+
+2. **Configuration** (`src/lib/config.ts`):
+   * Environment variable management
+   * Service configuration
+
+3. **Weather Service** (`src/services/weatherService.ts`):
+   * API integration
+   * Data transformation
+   * Proper error propagation
+
+4. **Weather Tool** (`src/tools/weather.ts`):
+   * Parameter validation with Zod
+   * User-friendly output formatting
+   * Error handling and user guidance
+
+To use the weather tool:
+
+```bash
+# Set your OpenWeather API key
+export OPENWEATHER_API_KEY=your_api_key_here
+
+# Run the server
+pnpm run start
+
+# Connect with an MCP client and use the GET_WEATHER tool
+# with parameter: { "city": "London" }
+```
 
 ## Pre-commit Linting (Husky & lint-staged)
 

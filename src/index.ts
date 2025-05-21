@@ -1,33 +1,33 @@
 #!/usr/bin/env node
-import { FastMCP, type Tool } from "fastmcp";
-import { helloTool } from "./tools/hello.js";
+import { FastMCP } from "fastmcp";
+import { weatherTool } from "./tools/weather.js";
 
 async function main() {
-	console.log("Initializing Hello MCP Server Template...");
+	console.log("Initializing Weather MCP Server...");
 
 	const server = new FastMCP({
-		name: "Hello MCP Server",
+		name: "Weather MCP Server",
 		version: "0.0.1",
 	});
 
-	server.addTool(helloTool);
+	server.addTool(weatherTool);
 
 	try {
 		await server.start({
 			transportType: "stdio",
 		});
-		console.log("✅ Hello MCP Server started successfully over stdio.");
+		console.log("✅ Weather MCP Server started successfully over stdio.");
 		console.log("   You can now connect to it using an MCP client.");
-		console.log("   Try the HELLO_WORLD tool!");
+		console.log("   Try the GET_WEATHER tool with a city name!");
 	} catch (error) {
-		console.error("❌ Failed to start Hello MCP Server:", error);
+		console.error("❌ Failed to start Weather MCP Server:", error);
 		process.exit(1);
 	}
 }
 
 main().catch((error) => {
 	console.error(
-		"❌ An unexpected error occurred in the Hello MCP Server:",
+		"❌ An unexpected error occurred in the Weather MCP Server:",
 		error,
 	);
 	process.exit(1);

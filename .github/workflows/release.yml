@@ -13,21 +13,14 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    permissions: # Added permissions for changesets/action to create PRs and releases
-      contents: write
-      pull-requests: write
-      id-token: write # If using OIDC for npm publish
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 # Need full history for changesets version
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22.0.0
-          registry-url: 'https://registry.npmjs.org' # For npm publish
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -55,8 +48,6 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm run publish-packages
-          # title: "chore: Prepare Release"
-          # commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # For publishing to npm
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

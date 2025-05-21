@@ -105,43 +105,53 @@ pnpm run start
 
 This template includes `husky` and `lint-staged` in its `devDependencies` for running Biome on staged files before committing. To set it up:
 
-1. **Ensure Husky is executable (if needed, usually handled by pnpm/npm):**
-    If you encounter issues, you might need `chmod +x .husky/*` but this is rare.
+1. **Ensure your package.json has the prepare script for husky:**
 
-2. **Install Husky hooks:**
-    The `prepare` script in `package.json` (`"prepare": "husky"`) should automatically run when you install dependencies with `pnpm install`. This sets up Husky.
-    If it didn't run or you need to re-initialize:
+   ```json
+   {
+     "scripts": {
+       "prepare": "husky"
+     }
+   }
+   ```
 
-    ```bash
-    pnpm run prepare 
-    # or npx husky init (less common if prepare script exists)
-    ```
+2. **Install dependencies and initialize husky:**
 
-3. **Add the pre-commit hook for lint-staged:**
+   ```bash
+   pnpm install
+   pnpm dlx husky init
+   ```
 
-    ```bash
-    pnpm exec husky add .husky/pre-commit "pnpm lint-staged"
-    # or npx husky add .husky/pre-commit "pnpm lint-staged"
-    ```
+   This creates a `.husky` directory with the necessary setup.
 
-    This creates a `.husky/pre-commit` file that will run `pnpm lint-staged` on every commit.
+3. **Create the pre-commit hook for lint-staged:**
+
+   ```bash
+   # Create or edit the pre-commit file
+   echo '#!/usr/bin/env sh' > .husky/pre-commit
+   echo '. "$(dirname -- "$0")/_/husky.sh"
+   
+   pnpm lint-staged' >> .husky/pre-commit
+   
+   # Make it executable
+   chmod +x .husky/pre-commit
+
+   ```
 
 4. **Configure `lint-staged` in `package.json`:**
-    Add a `lint-staged` section to your `package.json` (if not already present, though the template might have a basic one to adapt):
+   ```json
+   // In package.json
+   "lint-staged": {
+     "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc}": [
+       "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched"
+     ]
+   }
+   ```
 
-    ```json
-    // In package.json
-    "lint-staged": {
-      "*.{js,ts,cjs,mjs,jsx,tsx,json,jsonc}": [
-        "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched"
-      ]
-    }
-    ```
-
-    *Adjust the Biome command as needed. The one above is a common example.*
+   *Adjust the Biome command as needed. The one above is a common example.*
 
 5. **Test it:**
-    Stage some changes to a `.ts` file and try to commit. Biome should run on the staged file.
+   Stage some changes to a `.ts` file and try to commit. Biome should run on the staged file.
 
 ## Release Management (Changesets)
 

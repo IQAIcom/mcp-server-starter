@@ -19,6 +19,9 @@
     "format": "biome format . --write",
     "lint": "biome check ."
   },
+  "publishConfig": {
+		"access": "public"
+	},
   "dependencies": {
     "dedent": "^1.6.0",
     "fastmcp": "^1.27.7",

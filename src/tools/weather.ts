@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { WeatherService } from "../services/weatherService.js";
+import { WeatherService } from "../services/weather-service.js";
 import dedent from "dedent";
 
 const weatherToolParams = z.object({
